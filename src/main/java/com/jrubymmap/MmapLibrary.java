@@ -36,7 +36,6 @@ public class MmapLibrary implements Library {
 
         private long size;
         private FileChannel channel;
-        private RandomAccessFile raf;
         private MappedByteBuffer buffer;
 
         public Mmap(Ruby runtime, RubyClass klass) {
@@ -47,34 +46,99 @@ public class MmapLibrary implements Library {
         public IRubyObject initialize(ThreadContext context, RubyString path, IRubyObject size)
             throws IOException
         {
-            this.size = size.convertToInteger().getLongValue();
+            this.size = ((RubyFixnum)size).getLongValue();
             File file = new File(path.decodeString());
-            this.raf = new RandomAccessFile(file, "rw");
-            this.channel = this.raf.getChannel();
+            RandomAccessFile raf = new RandomAccessFile(file, "rw");
+            this.channel = raf.getChannel();
             this.buffer = this.channel.map(FileChannel.MapMode.READ_WRITE, 0, this.size);
-            this.raf.close();
+            raf.close();
             return context.nil;
         }
 
-        @JRubyMethod(name = "seek", required = 1)
-        public void seek(IRubyObject pos)
-            throws IOException
-        {
-            this.buffer = this.channel.map(FileChannel.MapMode.READ_WRITE, pos.convertToInteger().getLongValue(), this.size);
+        //  best effort to ensure that this buffer content is resident in physical memory
+        @JRubyMethod(name = {"load"})
+        public void load(ThreadContext context) {
+            this.buffer.load();
         }
 
-        @JRubyMethod(name = "write", required = 1)
-        public void write(RubyString data) {
+        @JRubyMethod(name = "size")
+        public IRubyObject size(ThreadContext context) {
+            Ruby runtime = context.runtime;
+            return runtime.newFixnum(this.size);
+        }
+
+        @JRubyMethod(name = {"position="}, required = 1)
+        public void set_position(IRubyObject pos)
+            throws IOException
+        {
+            this.buffer.position((int)((RubyFixnum)pos).getLongValue());
+        }
+
+        @JRubyMethod(name = "put_int", required = 1)
+        public void put_int(IRubyObject value) {
+            this.buffer.putInt((int)((RubyFixnum)value).getLongValue());
+        }
+
+        @JRubyMethod(name = "put_int_at", required = 2)
+        public void put_int_at(IRubyObject index, IRubyObject value) {
+            this.buffer.putInt((int)((RubyFixnum)index).getLongValue(), (int)((RubyFixnum)value).getLongValue());
+        }
+
+        @JRubyMethod(name = "get_int_at", required = 1)
+        public IRubyObject get_int_at(ThreadContext context, IRubyObject index) {
+            Ruby runtime = context.runtime;
+            return runtime.newFixnum(this.buffer.getInt((int)((RubyFixnum)index).getLongValue()));
+        }
+
+        @JRubyMethod(name = "get_int")
+        public IRubyObject get_int(ThreadContext context) {
+            Ruby runtime = context.runtime;
+            return runtime.newFixnum(this.buffer.getInt());
+        }
+
+        @JRubyMethod(name = "put_long", required = 1)
+        public void put_long(IRubyObject value) {
+            this.buffer.putLong(((RubyFixnum)value).getLongValue());
+        }
+
+        @JRubyMethod(name = "put_long_at", required = 2)
+        public void put_long_at(IRubyObject index, IRubyObject value) {
+            this.buffer.putLong((int)((RubyFixnum)index).getLongValue(), ((RubyFixnum)value).getLongValue());
+        }
+
+        @JRubyMethod(name = "get_long_at", required = 1)
+        public IRubyObject get_long_at(ThreadContext context, IRubyObject index) {
+            Ruby runtime = context.runtime;
+            return runtime.newFixnum(this.buffer.getLong((int)((RubyFixnum)index).getLongValue()));
+        }
+
+        @JRubyMethod(name = "get_long")
+        public IRubyObject get_long(ThreadContext context) {
+            Ruby runtime = context.runtime;
+            return runtime.newFixnum(this.buffer.getLong());
+        }
+
+        // put the direct underlying bytes without copy
+        @JRubyMethod(name = "put_bytes", required = 1)
+        public void put_bytes(RubyString data) {
             this.buffer.put(data.getByteList().unsafeBytes());
         }
 
-        @JRubyMethod(name = "safe_write", required = 1)
-        public void safe_write(RubyString data) {
+        // put a copy of the underlying bytes
+        @JRubyMethod(name = "put_bytes_copy", required = 1)
+        public void put_bytes_copy(RubyString data) {
             this.buffer.put(data.getByteList().bytes());
         }
 
+        @JRubyMethod(name = "get_bytes", required = 1)
+        public IRubyObject get_bytes(ThreadContext context, IRubyObject size) {
+            byte[] bytes = new byte[(int)((RubyFixnum)size).getLongValue()];
+            this.buffer.get(bytes);
+            return RubyString.newString(context.runtime, bytes);
+        }
+
         @JRubyMethod(name = "position")
-        public IRubyObject position(ThreadContext context)
+        public IRubyObject get_position(ThreadContext context)
             throws IOException
         {
             Ruby runtime = context.runtime;
