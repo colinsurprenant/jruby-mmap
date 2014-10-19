@@ -90,17 +90,6 @@ public class MmapLibrary implements Library {
             }
         }
 
-        // @JRubyMethod(name = "put_int_at", required = 2)
-        // public void put_int_at(IRubyObject index, IRubyObject value) {
-        //     this.buffer.putInt((int)((RubyFixnum)index).getLongValue(), (int)((RubyFixnum)value).getLongValue());
-        // }
-
-        // @JRubyMethod(name = "get_int_at", required = 1)
-        // public IRubyObject get_int_at(ThreadContext context, IRubyObject index) {
-        //     Ruby runtime = context.runtime;
-        //     return runtime.newFixnum(this.buffer.getInt((int)((RubyFixnum)index).getLongValue()));
-        // }
-
         // def get_int
         // def get_int(index)
         @JRubyMethod(name = "get_int", required = 0, optional = 1)
@@ -118,7 +107,6 @@ public class MmapLibrary implements Library {
         // def put_long(value, index)
         @JRubyMethod(name = "put_long", required = 1, optional = 1)
         public void put_long(IRubyObject[] args) {
-            // long value = ((RubyFixnum)args[0]).getLongValue();
             long value = RubyNumeric.num2long(args[0]);
             if (args.length > 1) {
                 int index = RubyNumeric.num2int(args[1]);
@@ -221,6 +209,5 @@ public class MmapLibrary implements Library {
         {
             this.channel.close();
         }
-
     }
 }
