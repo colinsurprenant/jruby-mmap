@@ -1,3 +1,5 @@
+require "bundler/setup"
+
 begin
   require 'ant'
 rescue
@@ -6,7 +8,12 @@ rescue
   exit(1)
 end
 
-require 'jruby/jrubyc'
+
+desc "run specs"
+task :spec do
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new
+end
 
 task :setup do
   ant.mkdir 'dir' => "target/classes"
@@ -17,6 +24,7 @@ end
 
 desc "compile JRuby and Java proxy classes"
 task :build => [:setup] do |t, args|
+  require 'jruby/jrubyc'
   ant.javac(
     'srcdir' => "src/",
     'destdir' => "target/classes/",
