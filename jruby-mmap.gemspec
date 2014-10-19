@@ -15,4 +15,7 @@ Gem::Specification.new do |s|
   s.licenses = ["Apache-2.0"]
   s.platform = "java"
   s.files += `git ls-files`.lines.map(&:chomp)
+
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "rake"
 end
