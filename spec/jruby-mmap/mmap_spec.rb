@@ -11,7 +11,7 @@ describe Mmap do
     File.delete(@path) if File.exist?(@path)
   end
 
-  after(:all) do
+  after(:each) do
     File.delete(@path) if File.exist?(@path)
   end
 
