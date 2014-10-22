@@ -4,7 +4,7 @@ raise("JRuby required") unless defined?(JRUBY_VERSION)
 
 Gem::Specification.new do |s|
   s.name = "jruby-mmap"
-  s.version = "0.1.0"
+  s.version = "0.1.1"
   s.authors = ["Colin Surprenant"]
   s.date = Time.now.strftime('%Y-%m-%d')
   s.summary = "JRuby extension to Java NIO Mmap"
