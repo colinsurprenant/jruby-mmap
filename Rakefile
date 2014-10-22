@@ -22,16 +22,27 @@ task :setup do
   end
 end
 
-desc "compile JRuby and Java proxy classes"
+desc "compile Java classes"
 task :build => [:setup] do |t, args|
   require 'jruby/jrubyc'
   ant.javac(
-    'srcdir' => "src/",
-    'destdir' => "target/classes/",
-    'classpathref' => 'classpath',
-    'debug' => "yes",
-    'includeantruntime' => "no",
-    'verbose' => false,
-    'listfiles' => true
+    :srcdir => "src/",
+    :destdir => "target/classes/",
+    :classpathref => "classpath",
+    :debug => true,
+    :includeantruntime => "no",
+    :verbose => false,
+    :listfiles => true,
+    :source => "1.7",
+    :target => "1.7",
   ) {}
+end
+
+task :setup_jar do
+  ant.delete 'file' => "lib/jruby-mmap/jruby-mmap.jar"
+end
+
+desc "build the jar"
+task :jar => [:setup_jar, :build] do
+  ant.jar :basedir => "target/classes", :destfile => "lib/jruby-mmap/jruby-mmap.jar", :includes => "**/*.class"
 end
