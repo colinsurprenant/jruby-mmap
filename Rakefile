@@ -33,8 +33,8 @@ task :build => [:setup] do |t, args|
     :includeantruntime => "no",
     :verbose => false,
     :listfiles => true,
-    :source => "1.7",
-    :target => "1.7",
+    :source => "1.8",
+    :target => "1.8",
   ) {}
 end
 
