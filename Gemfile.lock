@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    jruby-mmap (0.1.1-java)
+    jruby-mmap (0.2.0-java)
 
 GEM
   remote: https://rubygems.org/
@@ -26,8 +26,8 @@ PLATFORMS
 
 DEPENDENCIES
   jruby-mmap!
-  rake
-  rspec
+  rake (~> 10)
+  rspec (~> 3)
 
 BUNDLED WITH
-   1.10.5
+   1.11.2
