@@ -1,0 +1,55 @@
+group 'com.jrubymmap'
+
+// sync with lib/jruby-mmap/version.rb
+version '0.2.0'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+// support for "provided" dependencies
+configurations {
+    provided
+}
+
+// support for "provided" dependencies
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
+
+// sync "provided" dependencies into intellij module dependencies
+idea {
+    module {
+        scopes.PROVIDED.plus += [project.configurations.provided]
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    provided 'org.jruby:jruby-core:1.7.22'
+}
+
+// below handles the embedded gem jar copy/clean
+
+task copyGemjar(type: Copy, dependsOn: classes) {
+    from project.jar
+    into project.file('lib/jruby-mmap')
+}
+
+task cleanGemjar {
+    delete fileTree(project.file('lib/jruby-mmap')) {
+        include '*.jar'
+    }
+}
+
+clean.dependsOn(cleanGemjar)
+build.finalizedBy(copyGemjar)
+
+
