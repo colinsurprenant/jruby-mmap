@@ -52,4 +52,9 @@ task cleanGemjar {
 clean.dependsOn(cleanGemjar)
 build.finalizedBy(copyGemjar)
 
+// See http://www.gradle.org/docs/current/userguide/gradle_wrapper.html
+task wrapper(type: Wrapper) {
+    description = 'Install Gradle wrapper'
+    gradleVersion = '2.8'
+}
 
