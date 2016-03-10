@@ -1,12 +1,12 @@
-# JRuby MMap
+# JRuby Mmap
 
 This gem only supports [JRuby](http://jruby.org/).
 
-JRuby MMap is a Java JRuby extension wrapper over the Java NIO memory mapping. 
+JRuby Mmap is a Java JRuby extension wrapper over the Java NIO memory mapping. 
 
 See also
-- [JRuby MMap Queues](https://github.com/colinsurprenant/jruby-mmap-queues)
-- [JRuby MMap Benchmarks](https://github.com/colinsurprenant/jruby-mmap-benchmark)
+- [JRuby Mmap Queues](https://github.com/colinsurprenant/jruby-mmap-queues)
+- [JRuby Mmap Benchmarks](https://github.com/colinsurprenant/jruby-mmap-benchmark)
 
 ## Installation
 
@@ -64,4 +64,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/colins
 
 ## License and Copyright
 
-*JRuby MMap* is released under the Apache License, Version 2.0. See [LICENSE](https://github.com/colinsurprenant/jruby-mmap/blob/master/LICENSE).
+*JRuby Mmap* is released under the Apache License, Version 2.0. See [LICENSE](https://github.com/colinsurprenant/jruby-mmap/blob/master/LICENSE).
