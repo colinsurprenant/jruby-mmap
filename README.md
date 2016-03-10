@@ -1,10 +1,30 @@
 # JRuby MMap
 
+This gem only supports [JRuby](http://jruby.org/).
+
 JRuby MMap is a Java JRuby extension wrapper over the Java NIO memory mapping. 
 
 See also
 - [JRuby MMap Queues](https://github.com/colinsurprenant/jruby-mmap-queues)
 - [JRuby MMap Benchmarks](https://github.com/colinsurprenant/jruby-mmap-benchmark)
+
+## Installation
+
+This gem only supports [JRuby](http://jruby.org/).
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'jruby-mmap'
+```
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install jruby-mmap
 
 ## Building
 
@@ -36,15 +56,11 @@ $ bundle exec rspec
 
 ## Author
 
-* [Colin Surprenant](https://github.com/colinsurprenant)
+**Colin Surprenant** on [GitHub](https://github.com/colinsurprenant) and [Twitter](https://twitter.com/colinsurprenant).
 
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+Bug reports and pull requests are welcome on GitHub at https://github.com/colinsurprenant/jruby-mmap.
 
 ## License and Copyright
 
