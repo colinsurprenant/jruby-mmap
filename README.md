@@ -52,7 +52,7 @@ mmap.close
 In Ruby there's no concept of byte arrays, for IO, data is ultimately carried as strings. The `Mmap::ByteBuffer` class exposes two methods for 
 writing bytes to the mmap byte buffer which takes a `String` as argument: 
 - `Mmap::ByteBuffer#put_bytes`
-- `Mmap::ByteBuffer#put_bytes_copy`. 
+- `Mmap::ByteBuffer#put_bytes_copy`
 
 The former, `put_bytes` avoids 
 copying the `String` content by directly passing the `String` underlying `ByteList` to the mmap byte buffer `put` method. This is 
